@@ -12,8 +12,6 @@ class SignInForm extends React.Component {
     render() {
         return(
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
-                <View style={styles.siginInIcon}/>
-
                 <TitleTextInput headerText={'ID'} onChangeText={this._onChange}/>
                 <TitleTextInput headerText={'Password'} onChangeText={this._onChange}/>
 
