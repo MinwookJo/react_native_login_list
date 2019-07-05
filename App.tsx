@@ -7,35 +7,20 @@
  */
 
 import React from 'react';
-import { View, Text } from 'react-native';
-import SignInPage from './src/components/screen/SignInPage';
-import ListPage from './src/components/screen/ListPage';
-import { NavigationContainer, createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation';
+import {Provider} from 'mobx-react';
+import SearchStore from './src/store/SearchStore';
+import RootPage from './src/components/screen/RootPage';
 
-export const APP_PATH = {
-  SIGNIN: 'SignIn',
-  LIST: 'List'
+// App 전체 Store들, NavigationRoot 포함
+class App extends React.Component {
+  render() {
+    const searchStore = new SearchStore();
+    return(
+      <Provider searchStore={searchStore}>
+        <RootPage/>
+      </Provider>
+    );
+  }
 }
 
-const App: NavigationContainer = createStackNavigator(
-  {
-    SignIn: {
-      screen: SignInPage,
-      navigationOptions: () => ({
-        header: null
-      }),
-    },
-    List: {
-      screen: ListPage,
-      navigationOptions: () => ({
-        header: null
-      }),
-    },
-  },
-  {
-    initialRouteName: APP_PATH.SIGNIN
-  }
-);
-
-export default createAppContainer(App);
+export default App;
