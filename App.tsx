@@ -23,17 +23,13 @@ const App: NavigationContainer = createStackNavigator(
     SignIn: {
       screen: SignInPage,
       navigationOptions: () => ({
-        title: 'signIn',
-        headerBackTitle: 'A much too long text for back button from B to A',
-        headerTruncatedBackTitle: 'to Back'
+        header: null
       }),
     },
     List: {
       screen: ListPage,
       navigationOptions: () => ({
-        title: 'list',
-        headerBackTitle: 'A much too long text for back button from B to A',
-        headerTruncatedBackTitle: 'to Back'
+        header: null
       }),
     },
   },

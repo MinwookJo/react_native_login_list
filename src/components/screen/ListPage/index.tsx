@@ -12,7 +12,7 @@ class ListPage extends React.Component<Props> {
             <TouchableOpacity onPress={() => {
                 this.props.navigation.navigate(APP_PATH.SIGNIN)
             }}>
-                <Text>List Page2</Text>
+                <Text>List Page</Text>
             </TouchableOpacity>
         );
     }
