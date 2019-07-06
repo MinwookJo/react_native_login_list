@@ -8,6 +8,7 @@ import images from '../../../constants/images';
 import { APP_PATH } from "../RootPage";
 import { getToken } from "../../../storage/TokenStorage";
 import LoadingModal from "../../molecule/LoadingModal";
+
 type Props = {
 
 } & NavigationInjectedProps;

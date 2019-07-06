@@ -8,15 +8,15 @@
 
 import React from 'react';
 import {Provider} from 'mobx-react';
-import SearchStore from './src/store/SearchStore';
+import RootStore from './src/store/RootStore';
 import RootPage from './src/components/screen/RootPage';
 
 // App 전체 Store들, NavigationRoot 포함
 class App extends React.Component {
   render() {
-    const searchStore = new SearchStore();
+    const rootStore = new RootStore();
     return(
-      <Provider searchStore={searchStore}>
+      <Provider rootStore={rootStore}>
         <RootPage/>
       </Provider>
     );

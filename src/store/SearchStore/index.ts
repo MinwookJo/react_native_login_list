@@ -1,7 +1,13 @@
-import {observable, action} from 'mobx'
+import {observable, action, computed} from 'mobx'
 
 class SearchStore {
     @observable searchKeyWord: string = ''; 
+    @observable vehicleList: [];
+    
+    @computed
+    get searchedVehicleList(): [] {
+        return this.vehicleList;
+    }
 
     @action
     changeKeyWord() {

@@ -8,6 +8,9 @@ import TitleCheckBox from "../../../molecule/TitleCheckBox";
 import TextButton from "../../../molecule/TextButton";
 import OneButtonModal from "../../../molecule/OneButtonModal";
 import LoadingModal from "../../../molecule/LoadingModal";
+import { observer, inject } from "mobx-react";
+import RootStore from "../../../../store/RootStore";
+import { saveToken } from "../../../../storage/TokenStorage";
 
 type State = {
     userId: string,
@@ -20,6 +23,10 @@ type State = {
 type Props = {
     goToListPage: () => void,
     setLoadingVisible: (visible: boolean) => void
+} & InjectedProps
+
+type InjectedProps = {
+    rootStore?: RootStore
 }
 
 const initialState: State = {
@@ -30,6 +37,8 @@ const initialState: State = {
     modalMessage: ''
 }
 
+@inject('rootStore')
+@observer
 class SignInForm extends React.Component<Props, State> {
     state = initialState;
 
@@ -52,7 +61,11 @@ class SignInForm extends React.Component<Props, State> {
     private onSubmitLogin = () => {
         const {isSaveLoginToken, userId, password} = this.state;
         const {goToListPage, setLoadingVisible} = this.props;
-        // 한번 값을 검사하고 성공 시 signIn call
+        const {rootStore} = this.props;
+        const {accountStore} = rootStore;
+        // 1. 한번 값을 검사 후 signIn call
+        // 2. signIn request로 signIn 시도
+        // 3. signIn 성공 시 token 저장(stpre, storage), 페이지 이동  
         this.handleSiginValidator(
             () => {
                 setLoadingVisible(true);
@@ -60,15 +73,22 @@ class SignInForm extends React.Component<Props, State> {
                     userId: userId,
                     password: password,
                     deviceType: DEVICE_TYPE.Android
-                }, isSaveLoginToken).then(
+                }).then(
+                    // 성공
                     (result: SignInApiType) => {
+                        if(isSaveLoginToken) {
+                            saveToken(result.token);
+                        }
+                        accountStore.setToken(result.token);
                         goToListPage();
                     }
                 ). catch(
+                    // 실패
                     (err) => {
                         this.setState({modalVisible: true, modalMessage: '아이디 혹은 비밀번호가 틀렸습니다'});
                     }
                 ).finally(
+                    // 마지막
                     () => {
                         setLoadingVisible(false);
                     }

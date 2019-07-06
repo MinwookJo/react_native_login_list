@@ -12,13 +12,10 @@ export const fetchSignIn = async (request: {
     userId: string,
     password: string,
     deviceType: DEVICE_TYPE
-}, isSaveToken: boolean) => {
+}) => {
     return Axios.post(BASE_API_URL + 'mobile/v1/auth/', request)
     .then(
       (result: AxiosResponse<ApiResponseType<SignInApiType>>): SignInApiType => {
-        if(isSaveToken) {
-          saveToken(result.data.data.token);
-        }
         return result.data.data;
       }
     )
