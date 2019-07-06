@@ -1,8 +1,6 @@
 import { DEVICE_TYPE } from "../../utils/device";
 import Axios, { AxiosResponse } from 'axios';
 import { BASE_API_URL, ApiResponseType } from "../../utils/api";
-import SignInForm from "../../components/screen/SignInPage/components/SignInForm";
-import { saveToken } from "../../storage/TokenStorage";
 
 export type SignInApiType = {
   token: string
