@@ -20,10 +20,11 @@ export const fetchVehicleList = async (token: string) => {
     )
 } 
 
-export const updateVehicleFavorite = async(vehicleIdx: number, favorite: boolean) => {
-    return Axios.put(BASE_API_URL + 'mobile/v1/users/self/vehicles/'+ vehicleIdx +'/favorite', favorite)
+export const updateVehicleFavorite = async (vehicleIdx: number, request: {status: boolean}, token: string) => {
+    return Axios.put(BASE_API_URL + 'mobile/v1/users/self/vehicles/'+vehicleIdx+'/favorite', request)
     .then(
         (result:  AxiosResponse<ApiResponseType<UpdateVehicleFavoriteApiType>>): UpdateVehicleFavoriteApiType => {
+            console.log(result);
             return result.data.data;
         }
     )

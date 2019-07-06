@@ -6,6 +6,7 @@ import RootStore from "../../../store/RootStore";
 import VehicleListItem from "./components/VehicleListItem";
 
 type Props = {
+    setLoadingVisible: (visible: boolean) => void
 } & InjectedProps
 
 type InjectedProps = {
@@ -26,8 +27,10 @@ class VehicleList extends React.Component<Props>{
     state = initialState;
 
     componentWillMount() {
-        const {rootStore} = this.props;
+        const {rootStore, setLoadingVisible} = this.props;
         const {accountStore, searchStore} = rootStore;
+        
+        setLoadingVisible(true);
         fetchVehicleList(accountStore.token).then(
             (result: VehicleType[]) => {
                 // 성공 시 store에 저장
@@ -37,7 +40,9 @@ class VehicleList extends React.Component<Props>{
             (err) => {
                 console.log('Err' + err);
             }
-        )
+        ).finally(() => {
+            setLoadingVisible(false);
+        })
     }
 
     // foreach로 데이터만큼 렌더링하는 함수

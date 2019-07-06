@@ -4,16 +4,32 @@ import { withNavigation } from "react-navigation";
 import { NavigationInjectedProps } from "react-navigation";
 import RootStore from "../../../store/RootStore";
 import VehicleList from "../../organism/VehicleList";
+import LoadingModal from "../../molecule/LoadingModal";
 
 type Props = {
 } & NavigationInjectedProps;
 
-class ListPage extends React.Component<Props> {
+type State = {
+    isLoading: boolean
+}
+
+const initialState: State = {
+    isLoading: false
+}
+
+class ListPage extends React.Component<Props, State> {
+    state = initialState;
+
+    setLoadingVisible = (visible: boolean) => {
+        this.setState({isLoading: visible});
+    }
 
     render() {
+        const {isLoading} = this.state;
         return(
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <VehicleList/>
+                <VehicleList setLoadingVisible={this.setLoadingVisible}/>
+                <LoadingModal visible={isLoading}/>
             </View>
             
         );

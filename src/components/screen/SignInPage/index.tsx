@@ -36,7 +36,7 @@ class SignInPage extends React.Component<Props, State> {
         this.props.navigation.navigate(APP_PATH.LIST);
     }
 
-    setShowLoadingVisible = (visible: boolean) => {
+    setLoadingVisible = (visible: boolean) => {
         this.setState({isLoading: visible});
     }
 
@@ -59,7 +59,7 @@ class SignInPage extends React.Component<Props, State> {
         return(
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
                 <Image style={styles.siginInIcon} source={images.Image.MainIcon}/>
-                <SignInForm goToListPage={this.goToListPage} setLoadingVisible={this.setShowLoadingVisible}/>
+                <SignInForm goToListPage={this.goToListPage} setLoadingVisible={this.setLoadingVisible}/>
                 <LoadingModal visible={isLoading}/>
             </View>
         );
