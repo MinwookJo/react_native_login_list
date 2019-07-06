@@ -1,24 +1,7 @@
 import {StyleSheet, ImageStyle, ViewStyle, TextStyle} from 'react-native';
-
-const checkBox: ViewStyle = {
-    width: 18,
-    height: 18,
-    backgroundColor: 'green',
-    marginLeft: 3,
-}
-
-const checkBoxSubtitle: TextStyle = {
-    fontSize: 13.6,
-    color: '#999999',
-    letterSpacing: 1.25,
-    lineHeight: 16,
-    marginLeft: 11
-}
-
-const siginInIcon: ImageStyle & ViewStyle = {
+const siginInIcon: ImageStyle = {
     width: 120,
     height: 120,
-    backgroundColor: 'grey',
     marginTop: 100
 }
 
@@ -33,7 +16,7 @@ const signInButton: ViewStyle = {
 }
 
 const signInButtonText: TextStyle = {
-    color: '#dedede',    
+    color: '#dedede',
 }
 
 const forgotPasswordButton: ViewStyle = {
@@ -49,13 +32,11 @@ const forgotPasswordButton: ViewStyle = {
 }
 
 const forgotPasswordButtonText: TextStyle = {
-    color: '#00bc45',    
+    color: '#00bc45',
 }
 
 export default StyleSheet.create({
     siginInIcon,
-    checkBox,
-    checkBoxSubtitle,
     signInButton,
     signInButtonText,
     forgotPasswordButton,
