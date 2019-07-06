@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from "../styles";
 import TitleTextInput from "../../../molecule/TitleTextInput";
+import { fetchSignIn, SignInApiType } from "../../../../api/Account";
+import { DEVICE_TYPE } from "../../../../utils/device";
 
 type State = {
     userId: string,
@@ -24,6 +26,22 @@ class SignInForm extends React.Component {
         this.setState({password: value});
     }
 
+    private onSubmitLogin = () => {
+        fetchSignIn({
+            userId: 'ecube_recruit',
+            password: 'Recruit12!@',
+            deviceType: DEVICE_TYPE.Android
+        }).then(
+            (result: SignInApiType) => {
+                console.log('Res', result);
+            }
+        ). catch(
+            (err) => {
+                console.log('ERR' + err);
+            }
+        )
+    }
+
     render() {
         return(
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
@@ -35,7 +53,9 @@ class SignInForm extends React.Component {
                     <Text style={styles.checkBoxSubtitle}>로그인 상태 유지</Text>
                 </View>
                 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    this.onSubmitLogin()
+                }}>
                     <Text>로그인</Text>
                 </TouchableOpacity>
 
