@@ -7,6 +7,7 @@ import { DEVICE_TYPE } from "../../../../utils/device";
 import TitleCheckBox from "../../../molecule/TitleCheckBox";
 import TextButton from "../../../molecule/TextButton";
 import OneButtonModal from "../../../molecule/OneButtonModal";
+import LoadingModal from "../../../molecule/LoadingModal";
 
 type State = {
     userId: string,
@@ -17,7 +18,8 @@ type State = {
 }
 
 type Props = {
-    goToListPage: () => void
+    goToListPage: () => void,
+    setLoadingVisible: (visible: boolean) => void
 }
 
 const initialState: State = {
@@ -49,10 +51,11 @@ class SignInForm extends React.Component<Props, State> {
     // 로그인 버튼 터치 시
     private onSubmitLogin = () => {
         const {isSaveLoginToken, userId, password} = this.state;
-        const {goToListPage} = this.props;
+        const {goToListPage, setLoadingVisible} = this.props;
         // 한번 값을 검사하고 성공 시 signIn call
         this.handleSiginValidator(
             () => {
+                setLoadingVisible(true);
                 fetchSignIn({
                     userId: userId,
                     password: password,
@@ -64,6 +67,10 @@ class SignInForm extends React.Component<Props, State> {
                 ). catch(
                     (err) => {
                         this.setState({modalVisible: true, modalMessage: '아이디 혹은 비밀번호가 틀렸습니다'});
+                    }
+                ).finally(
+                    () => {
+                        setLoadingVisible(false);
                     }
                 )
             }
