@@ -6,20 +6,29 @@ import { fetchSignIn, SignInApiType } from "../../../../api/Account";
 import { DEVICE_TYPE } from "../../../../utils/device";
 import TitleCheckBox from "../../../molecule/TitleCheckBox";
 import TextButton from "../../../molecule/TextButton";
+import OneButtonModal from "../../../molecule/OneButtonModal";
 
 type State = {
     userId: string,
     password: string,
-    isSaveLoginToken: boolean
+    isSaveLoginToken: boolean,
+    modalVisible: boolean,
+    modalMessage: string
+}
+
+type Props = {
+    goToListPage: () => void
 }
 
 const initialState: State = {
     userId: '',
     password: '',
-    isSaveLoginToken: false
+    isSaveLoginToken: false,
+    modalVisible: false,
+    modalMessage: ''
 }
 
-class SignInForm extends React.Component {
+class SignInForm extends React.Component<Props, State> {
     state = initialState;
 
     // userId input onChange
@@ -40,6 +49,7 @@ class SignInForm extends React.Component {
     // 로그인 버튼 터치 시
     private onSubmitLogin = () => {
         const {isSaveLoginToken, userId, password} = this.state;
+        const {goToListPage} = this.props;
         // 한번 값을 검사하고 성공 시 signIn call
         this.handleSiginValidator(
             () => {
@@ -49,11 +59,11 @@ class SignInForm extends React.Component {
                     deviceType: DEVICE_TYPE.Android
                 }, isSaveLoginToken).then(
                     (result: SignInApiType) => {
-                        console.log('Res', result);
+                        goToListPage();
                     }
                 ). catch(
                     (err) => {
-                        console.log('ERR' + err);
+                        this.setState({modalVisible: true, modalMessage: '아이디 혹은 비밀번호가 틀렸습니다'});
                     }
                 )
             }
@@ -66,12 +76,12 @@ class SignInForm extends React.Component {
         if(!!userId && !!password) {
             onSuccess();
         } else {
-            // TODO Error
+            this.setState({modalVisible: true, modalMessage: '입력을 확인해주세요'});
         }
     }
 
     render() {
-        const {isSaveLoginToken} = this.state;
+        const {isSaveLoginToken, modalVisible, modalMessage} = this.state;
         return(
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
                 <TitleTextInput headerText={'ID'} onChangeText={this.onChangeUserId}/>
@@ -85,7 +95,9 @@ class SignInForm extends React.Component {
                     buttonStyle={styles.signInButton} buttonTextStyle={styles.signInButtonText}/>
                 <TextButton text={'비밀번호 찾기'} onPress={() => {}}
                     buttonStyle={styles.forgotPasswordButton} buttonTextStyle={styles.forgotPasswordButtonText}/>
-
+                <OneButtonModal message={modalMessage} visible={modalVisible} onPress={() => {
+                    this.setState({modalVisible: false});
+                }}/>
             </View>
         );
     }
