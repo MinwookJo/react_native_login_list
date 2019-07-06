@@ -18,6 +18,7 @@ class VehicleList extends React.Component<Props>{
     componentDidMount() {
         const {rootStore} = this.props;
         const {accountStore} = rootStore;
+        console.log('MJ: ', accountStore.token);
         fetchVehicleList(accountStore.token).then(
             (result: FetchVehicleListApiType) => {
                 console.log('ABC'+ result);

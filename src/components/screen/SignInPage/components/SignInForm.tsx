@@ -37,6 +37,7 @@ const initialState: State = {
     modalMessage: ''
 }
 
+// SiginIn Form 컴포넌트
 @inject('rootStore')
 @observer
 class SignInForm extends React.Component<Props, State> {
@@ -65,7 +66,7 @@ class SignInForm extends React.Component<Props, State> {
         const {accountStore} = rootStore;
         // 1. 한번 값을 검사 후 signIn call
         // 2. signIn request로 signIn 시도
-        // 3. signIn 성공 시 token 저장(stpre, storage), 페이지 이동  
+        // 3. signIn 성공 시 token 저장(store, storage) 후 페이지 이동  
         this.handleSiginValidator(
             () => {
                 setLoadingVisible(true);
@@ -77,6 +78,7 @@ class SignInForm extends React.Component<Props, State> {
                     // 성공
                     (result: SignInApiType) => {
                         if(isSaveLoginToken) {
+                            // 아이디 저장 체크 했으면
                             saveToken(result.token);
                         }
                         accountStore.setToken(result.token);
