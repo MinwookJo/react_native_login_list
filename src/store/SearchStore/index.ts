@@ -10,17 +10,17 @@ class SearchStore {
         return this.vehicleList;
     }
 
-    @action
+    @action.bound
     changeKeyWord() {
         this.searchKeyWord = this.searchKeyWord + '1';
     }
 
-    @action
+    @action.bound
     setVehicleList(list: VehicleType[]) {
         this.vehicleList = list;
     }
 
-    @action
+    @action.bound
     fetchVehicleListData = (token: string, onScuess: () => void, onFail: () => void) => {
         fetchVehicleList(token).then(
             (result: VehicleType[]) => {
