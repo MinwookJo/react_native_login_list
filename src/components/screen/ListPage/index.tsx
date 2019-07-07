@@ -5,6 +5,8 @@ import { NavigationInjectedProps } from "react-navigation";
 import RootStore from "../../../store/RootStore";
 import VehicleList from "../../organism/VehicleList";
 import LoadingModal from "../../molecule/LoadingModal";
+import BottomMenuTap from "../../organism/BottomMenuTap";
+import SearchHeader from "../../organism/SearchHeader";
 
 type Props = {
 } & NavigationInjectedProps;
@@ -28,7 +30,9 @@ class ListPage extends React.Component<Props, State> {
         const {isLoading} = this.state;
         return(
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <SearchHeader/>
                 <VehicleList setLoadingVisible={this.setLoadingVisible}/>
+                <BottomMenuTap/>
                 <LoadingModal visible={isLoading}/>
             </View>
             

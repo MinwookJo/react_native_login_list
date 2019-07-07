@@ -1,9 +1,9 @@
 import { View, ScrollView } from "react-native";
 import React, { ReactNode } from "react";
-import { fetchVehicleList, VehicleType } from "../../../api/Vehicle";
 import { inject, observer } from "mobx-react";
 import RootStore from "../../../store/RootStore";
 import VehicleListItem from "./components/VehicleListItem";
+import { VehicleType } from "../../../api/Vehicle";
 
 type Props = {
     setLoadingVisible: (visible: boolean) => void
@@ -49,7 +49,7 @@ class VehicleList extends React.Component<Props>{
 
     render() {
         return(
-            <View style={{width: '100%'}}>       
+            <View style={{flex: 1, width: '100%'}}>       
                 <ScrollView>
                     {this.renderList()}
                 </ScrollView>
