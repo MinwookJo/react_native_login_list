@@ -1,16 +1,14 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import styles from "../styles";
 import TitleTextInput from "../../../molecule/TitleTextInput";
-import { fetchSignIn, SignInApiType } from "../../../../api/Account";
-import { DEVICE_TYPE } from "../../../../utils/device";
+import { fetchSignIn, SignInApiType, SignInRequest } from "../../../../api/Account";
+import { DEVICE_TYPE, getOS } from "../../../../utils/device";
 import TitleCheckBox from "../../../molecule/TitleCheckBox";
 import TextButton from "../../../molecule/TextButton";
 import OneButtonModal from "../../../molecule/OneButtonModal";
-import LoadingModal from "../../../molecule/LoadingModal";
 import { observer, inject } from "mobx-react";
 import RootStore from "../../../../store/RootStore";
-import { saveToken } from "../../../../storage/TokenStorage";
 
 type State = {
     userId: string,
@@ -21,8 +19,8 @@ type State = {
 }
 
 type Props = {
-    goToListPage: () => void,
-    setLoadingVisible: (visible: boolean) => void
+    goToListPage: () => void, // page 이동
+    setLoadingVisible: (visible: boolean) => void // loading modal visible
 } & InjectedProps
 
 type InjectedProps = {
@@ -33,6 +31,7 @@ const initialState: State = {
     userId: '',
     password: '',
     isSaveLoginToken: false,
+
     modalVisible: false,
     modalMessage: ''
 }
@@ -53,53 +52,12 @@ class SignInForm extends React.Component<Props, State> {
         this.setState({password: value});
     }
 
-    // save login state onCheck
+    // 로그인 저장여부 onChagne
     private onCheckLoginStateCheckBox = () => {
         this.setState({isSaveLoginToken: !this.state.isSaveLoginToken});
     }
 
-    // 로그인 버튼 터치 시
-    private onSubmitLogin = () => {
-        const {isSaveLoginToken, userId, password} = this.state;
-        const {goToListPage, setLoadingVisible} = this.props;
-        const {rootStore} = this.props;
-        const {accountStore} = rootStore;
-        // 1. 한번 값을 검사 후 signIn call
-        // 2. signIn request로 signIn 시도
-        // 3. signIn 성공 시 token 저장(store, storage) 후 페이지 이동  
-        this.handleSiginValidator(
-            () => {
-                setLoadingVisible(true);
-                fetchSignIn({
-                    userId: userId,
-                    password: password,
-                    deviceType: DEVICE_TYPE.Android
-                }).then(
-                    // 성공
-                    (result: SignInApiType) => {
-                        if(isSaveLoginToken) {
-                            // 아이디 저장 체크 했으면
-                            saveToken(result.token);
-                        }
-                        accountStore.setToken(result.token);
-                        goToListPage();
-                    }
-                ). catch(
-                    // 실패
-                    (err) => {
-                        this.setState({modalVisible: true, modalMessage: '아이디 혹은 비밀번호가 틀렸습니다'});
-                    }
-                ).finally(
-                    // 마지막
-                    () => {
-                        setLoadingVisible(false);
-                    }
-                )
-            }
-        );
-    }
-
-    // SiginIn 값이 있는지 검사
+    // SiginIn 값이 유효한지 검사, 검사가 통과하면 인자로 받은 success 함수실행
     private handleSiginValidator = (onSuccess: () => void) => {
         const {userId, password} = this.state;
         if(!!userId && !!password) {
@@ -109,8 +67,44 @@ class SignInForm extends React.Component<Props, State> {
         }
     }
 
+    // 로그인 버튼 터치 시
+    private onSubmitLogin = () => {
+        const {userId, password, isSaveLoginToken} = this.state;
+        const {goToListPage, setLoadingVisible, rootStore} = this.props;
+        const {accountStore} = rootStore;
+
+        // 1. 입력값이 유효한지 검사
+        this.handleSiginValidator(
+            // 검사 성공시 실행될 함수
+            () => {
+                setLoadingVisible(true);
+                const deviceType: DEVICE_TYPE = getOS();
+                const request: SignInRequest = {
+                    userId: userId,
+                    password: password,
+                    deviceType: deviceType
+                    
+                }
+                // SignIn
+                accountStore.fetchTokenAndSigIn(request,
+                     isSaveLoginToken,
+                     () => {
+                        // onSuccess
+                        goToListPage();
+                        setLoadingVisible(false);
+                     },
+                     () => {
+                        // onFail
+                        this.setState({modalVisible: true, modalMessage: '아이디 혹은 비밀번호가 틀렸습니다'});
+                        setLoadingVisible(false);
+                     }
+                );
+            }
+        );
+    }
+
     render() {
-        const {isSaveLoginToken, modalVisible, modalMessage} = this.state;
+        const {modalVisible, modalMessage, isSaveLoginToken} = this.state;
         return(
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
                 <TitleTextInput headerText={'ID'} onChangeText={this.onChangeUserId}/>

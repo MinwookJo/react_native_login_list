@@ -6,7 +6,6 @@ import SignInForm from "./components/SignInForm";
 import styles from './styles';
 import images from '../../../constants/images';
 import { APP_PATH } from "../RootPage";
-import { getToken } from "../../../storage/TokenStorage";
 import LoadingModal from "../../molecule/LoadingModal";
 import {observer, inject} from 'mobx-react';
 import RootStore from "../../../store/RootStore";
@@ -41,17 +40,16 @@ class SignInPage extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        // siginInPage 들어왔을 때 storage에서 token 을 가져와 store에 저장하고 ListPage로 이동
-        // token이 없으면 siginInPage에 남음
-        getToken().then(
-            (token: string) => {
-                if(!!token){
-                    console.log(token);
-                    this.props.rootStore.accountStore.setToken(token);
-                    // this.goToListPage();
-                }
-            }
-        )
+        // siginInPage 들어왔을 때 storage에서 userId, password를 가져와서 로그인시도
+        // getToken().then(
+        //     (token: string) => {
+        //         if(!!token){
+        //             console.log(token);
+        //             this.props.rootStore.accountStore.setToken(token);
+        //             // this.goToListPage();
+        //         }
+        //     }
+        // )
     }
 
     render() {

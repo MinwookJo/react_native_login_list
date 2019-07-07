@@ -16,7 +16,7 @@ class TitleCheckBox extends React.Component<Props> {
         return(
             <View style={[{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',width: 296}, style]}>
                 <CheckBox check={check} imageStyle={styles.checkBoxImage} borderStyle={styles.checkBoxWrapper} 
-                    unCheckImageSrc={{uri: null}} checkImageSrc={images.Icon.CheckOn} onCheck={onCheck}/>
+                    unCheckImageSrc={{uri: null}} checkImageSrc={images.Icon.CheckOn} onCheck={() => onCheck()}/>
                 <Text style={styles.checkBoxTitle}>{title}</Text>
             </View>
         );
