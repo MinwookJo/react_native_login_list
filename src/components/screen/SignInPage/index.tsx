@@ -9,6 +9,9 @@ import { APP_PATH } from "../RootPage";
 import LoadingModal from "../../molecule/LoadingModal";
 import {observer, inject} from 'mobx-react';
 import RootStore from "../../../store/RootStore";
+import { getUserId, getPassword, saveUserId, savePassword } from "../../../storage/AccountStorage";
+import { SignInRequest } from "../../../api/Account";
+import { DEVICE_TYPE, getOS } from "../../../utils/device";
 
 type Props = {
 
@@ -40,16 +43,34 @@ class SignInPage extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        // siginInPage 들어왔을 때 storage에서 userId, password를 가져와서 로그인시도
-        // getToken().then(
-        //     (token: string) => {
-        //         if(!!token){
-        //             console.log(token);
-        //             this.props.rootStore.accountStore.setToken(token);
-        //             // this.goToListPage();
-        //         }
-        //     }
-        // )
+        this.autoSignIn();
+    }
+
+    private autoSignIn = async () => {
+        const {fetchTokenAndSigIn} = this.props.rootStore.accountStore;
+        let userIdData: string = '';
+        let passwordData: string = '';
+        const osData: DEVICE_TYPE = getOS();
+        this.setLoadingVisible(true);
+
+        await getUserId().then((userId: string) => userIdData = JSON.parse(userId));
+        await getPassword().then((password: string) => passwordData = JSON.parse(password));
+        const request: SignInRequest = {
+            userId: userIdData,
+            password: passwordData,
+            deviceType: osData
+        }
+        fetchTokenAndSigIn(request, false,
+            () => {
+                // success
+                this.goToListPage();
+                this.setLoadingVisible(false);
+            },
+            () => {
+                // fail
+                this.setLoadingVisible(false);
+            }
+        )
     }
 
     render() {

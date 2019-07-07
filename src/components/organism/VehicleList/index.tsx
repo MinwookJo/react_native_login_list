@@ -26,23 +26,15 @@ const initialState: State = {
 class VehicleList extends React.Component<Props>{
     state = initialState;
 
-    componentWillMount() {
+    componentDidMount() {
         const {rootStore, setLoadingVisible} = this.props;
         const {accountStore, searchStore} = rootStore;
-        
+    
         setLoadingVisible(true);
-        fetchVehicleList(accountStore.token).then(
-            (result: VehicleType[]) => {
-                // 성공 시 store에 저장
-                searchStore.setVehicleList(result);
-            }
-        ).catch(
-            (err) => {
-                console.log('Err' + err);
-            }
-        ).finally(() => {
-            setLoadingVisible(false);
-        })
+        searchStore.fetchVehicleListData(accountStore.token,
+            () => {setLoadingVisible(false);},
+            () => {setLoadingVisible(false);}
+        );
     }
 
     // foreach로 데이터만큼 렌더링하는 함수

@@ -9,10 +9,10 @@ export const getUserId = () => {
     return AsyncStorage.getItem('userId', (err, result): string => {
         let userId: string = '';
         if(!!err) {
+            return ''
         } else {
-            userId = JSON.parse(result);
+            return result;
         }
-        return userId;
     });
 }
 
@@ -25,9 +25,9 @@ export const getPassword = () => {
     return AsyncStorage.getItem('password', (err, result): string => {
         let password: string = '';
         if(!!err) {
+            return '';
         } else {
-            password = JSON.parse(result);
+            return password = result;
         }
-        return password;
     });
 }
