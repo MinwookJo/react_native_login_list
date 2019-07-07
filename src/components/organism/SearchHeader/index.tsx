@@ -2,11 +2,32 @@ import React from "react";
 import { View, Image} from "react-native";
 import images from "../../../constants/images";
 import styles from "./styles";
+import TextInputField from "../../atom/TextInputField";
+import RootStore from "../../../store/RootStore";
+import { observer, inject } from "mobx-react";
 
-class SearchHeader extends React.Component{
+type Props = {
+
+} & InjectedProps
+
+type InjectedProps = {
+    rootStore?: RootStore
+}
+
+@inject('rootStore')
+@observer
+class SearchHeader extends React.Component<Props>{
+    private onChangeSearchInput(value: string) {
+        const {changeKeyWord} = this.props.rootStore.searchStore;
+        changeKeyWord(value);
+    }
+
     render() {
         return(
             <View style={styles.searchHeaderWrapper}>
+                <Image source={images.Icon.Search} style={styles.SearchIcon}/>
+                <TextInputField onChangeText={(vaule: string) => {this.onChangeSearchInput(vaule)}} style={styles.SearchInputField}
+                placeholder={'차량 정보를 검색하세요'} placeholderTextColor={'#616161'}/>
             </View>
         );
     }

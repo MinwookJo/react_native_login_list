@@ -1,9 +1,10 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import React, { ReactNode } from "react";
 import { inject, observer } from "mobx-react";
 import RootStore from "../../../store/RootStore";
 import VehicleListItem from "./components/VehicleListItem";
 import { VehicleType } from "../../../api/Vehicle";
+import Label from "../../atom/Label";
 
 type Props = {
     setLoadingVisible: (visible: boolean) => void
@@ -14,11 +15,9 @@ type InjectedProps = {
 }
 
 type State = {
-    vehicleListData: VehicleType[]
 }
 
 const initialState: State = {
-    vehicleListData: []
 }
 
 @inject('rootStore')
@@ -39,11 +38,17 @@ class VehicleList extends React.Component<Props>{
 
     // foreach로 데이터만큼 렌더링하는 함수
     private renderList = () => {
-        const {vehicleList} = this.props.rootStore.searchStore;
+        const {searchedVehicleList} = this.props.rootStore.searchStore;
         const list: ReactNode[] = [];
-        vehicleList.forEach((value: VehicleType, index: number) => {
+        searchedVehicleList.forEach((value: VehicleType, index: number) => {
             list.push(<VehicleListItem vehicle={value} key={'vehicle' + index}/>);
         });
+        // 아이템이 없으면 텍스트 표시
+        if(searchedVehicleList.length < 1) {
+            list.push(
+                <Text style={{alignSelf: 'center'}} key={'Empty'}>{'데이터가 없습니다'}</Text>
+            );
+        }
         return list;
     }
 

@@ -7,12 +7,23 @@ class SearchStore {
     
     @computed
     get searchedVehicleList(): VehicleType[] {
-        return this.vehicleList;
+        const filterList = this.vehicleList.filter(
+            (element: VehicleType) => {
+                if(element.description.includes(this.searchKeyWord)) {
+                    return element;
+                } else if(element.licenseNumber.includes(this.searchKeyWord)) {
+                    return element;
+                } else if(element.capacity.toString().includes(this.searchKeyWord)) {
+                    return element;
+                }
+            }
+        )
+        return filterList;
     }
 
     @action.bound
-    changeKeyWord() {
-        this.searchKeyWord = this.searchKeyWord + '1';
+    changeKeyWord(vaule: string) {
+        this.searchKeyWord = vaule;
     }
 
     @action.bound
