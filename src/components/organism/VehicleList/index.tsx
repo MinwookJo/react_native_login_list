@@ -4,7 +4,6 @@ import { inject, observer } from "mobx-react";
 import RootStore from "../../../store/RootStore";
 import VehicleListItem from "./components/VehicleListItem";
 import { VehicleType } from "../../../api/Vehicle";
-import Label from "../../atom/Label";
 
 type Props = {
     setLoadingVisible: (visible: boolean) => void
@@ -41,7 +40,7 @@ class VehicleList extends React.Component<Props>{
         const {searchedVehicleList} = this.props.rootStore.searchStore;
         const list: ReactNode[] = [];
         searchedVehicleList.forEach((value: VehicleType, index: number) => {
-            list.push(<VehicleListItem vehicle={value} key={'vehicle' + index}/>);
+            list.push(<VehicleListItem vehicleIdx={value.vehicleIdx} key={'vehicle' + index}/>);
         });
         // 아이템이 없으면 텍스트 표시
         if(searchedVehicleList.length < 1) {

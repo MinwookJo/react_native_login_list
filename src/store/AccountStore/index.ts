@@ -11,7 +11,7 @@ class AccountStore {
     }
 
     @action.bound
-    fetchTokenAndSigIn(request: SignInRequest, isSaveToken: boolean, onSeccess: () => void, onFail: () => void) {
+    fetchTokenAndSigIn(request: SignInRequest, isSaveToken: boolean, onSeccess?: () => void, onFail?: () => void) {
         fetchSignIn(request)
         .then((result: SignInApiType) => {
             this.setToken(result.token);

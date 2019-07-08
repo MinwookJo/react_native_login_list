@@ -1,38 +1,52 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { VehicleType, updateVehicleFavorite } from "../../../../../api/Vehicle";
+import { VehicleType, UpdateVehicleFavoriteRequest, initialVehicle } from "../../../../../api/Vehicle";
 import styles from './styles';
 import StarBox from "../../../../molecule/StarBox";
 import { observer, inject } from "mobx-react";
 import RootStore from "../../../../../store/RootStore";
 
 type Props = {
-    vehicle: VehicleType,
+    vehicleIdx: number,
 } & InjectedProps
 
 type InjectedProps = {
     rootStore?: RootStore
 }
+
+type State = {
+    vehicle: VehicleType
+}
+
+const initialState: State = {
+    vehicle: initialVehicle
+}
+
 @inject('rootStore')
 @observer
 class VehicleListItem extends React.Component<Props>{
+    state = initialState;
 
     private onPressStar = () => {
-        const {vehicle} = this.props;
+        const {vehicleIdx} = this.props;
+        const {updateVehicleSFavorite} = this.props.rootStore.searchStore;
         const {token} = this.props.rootStore.accountStore;
-        console.log(token);
-        updateVehicleFavorite(vehicle.vehicleIdx, {status: !vehicle.favorite}, token)
-        .then((result: string) => {
-            console.log('sTR' + result);
-        }).catch(
-            (err) => {
-                console.log('ERR' + err);
-            }
-        )
+        const {vehicle} = this.state;
+
+        const request: UpdateVehicleFavoriteRequest = {
+            status: !vehicle.favorite
+        }
+        updateVehicleSFavorite(vehicleIdx, request, token);
+    }
+
+    componentDidMount() {
+        const {getVehicleListItemAt} = this.props.rootStore.searchStore;
+        const {vehicleIdx} = this.props;
+        this.setState({vehicle: getVehicleListItemAt(vehicleIdx)});
     }
 
     render(){
-        const {vehicle} = this.props;
+        const {vehicle} = this.state;
         return(
             <View style={styles.vehicleCard}>
                 <View style={styles.vehicleContent}>

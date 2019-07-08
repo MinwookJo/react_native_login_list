@@ -13,7 +13,7 @@ export type SignInApiType = {
 }
 
 export const fetchSignIn = async (request: SignInRequest) => {
-    return Axios.post(BASE_API_URL + 'mobile/v1/auth/', request)
+    return Axios.post(BASE_API_URL+'mobile/v1/auth', request)
     .then(
       (result: AxiosResponse<ApiResponseType<SignInApiType>>): SignInApiType => {
         return result.data.data;
