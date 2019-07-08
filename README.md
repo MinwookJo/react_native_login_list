@@ -1,7 +1,6 @@
 # react-native로 로그인, 리스트. 즐겨찾기가 있는 앱 개발
-# atomic 디자인, mobX, mobX decorator, react-navigation, AsyncStorage, Axios 사용
+atomic 디자인, mobX, mobX decorator, react-navigation, AsyncStorage, Axios 사용
 
-# -src/component에 컴포넌트파일 정의
 1. 컴포넌트 구조 src/components
 atom - 기본적인 요소가 되는 컴포넌트
 molecule - 하나의 기능을 가진 컴포넌트
