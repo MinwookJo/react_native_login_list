@@ -8,6 +8,7 @@ type Props = {
     onCheck: () => void
 }
 
+// 즐겨찾기 체크박스
 const StarBox: React.FC<Props> = (props: Props) => {
     const {isStarOn, onCheck} = props;
     return(

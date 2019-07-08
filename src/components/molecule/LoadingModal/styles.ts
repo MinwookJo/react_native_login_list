@@ -12,7 +12,7 @@ const modalText: TextStyle = {
     color: '#FFF'
 }
 
-export default {
+export default StyleSheet.create({
     modalBackground,
     modalText,
-}
+});

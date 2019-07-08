@@ -10,6 +10,7 @@ type Props = {
     onCheck: () => void
 }
 
+// 글자, checkBox로 된 컴포넌트 로그인저장 CheckBox에 사용
 class TitleCheckBox extends React.Component<Props> {
     render() {
         const {title, check, style, onCheck} = this.props;

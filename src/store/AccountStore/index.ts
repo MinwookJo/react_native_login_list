@@ -1,5 +1,5 @@
-import {observable, action, computed} from 'mobx'
-import { SignInRequest, fetchSignIn, SignInApiType } from '../../api/Account';
+import {observable, action } from 'mobx'
+import { SignInRequest, fetchSignIn, SignInResponse } from '../../api/Account';
 import { saveUserId, savePassword } from '../../storage/AccountStorage';
 
 class AccountStore {
@@ -13,7 +13,7 @@ class AccountStore {
     @action.bound
     fetchTokenAndSigIn(request: SignInRequest, isSaveToken: boolean, onSeccess?: () => void, onFail?: () => void) {
         fetchSignIn(request)
-        .then((result: SignInApiType) => {
+        .then((result: SignInResponse) => {
             this.setToken(result.token);
             // signIn 성공 후 userInfo 저장
             isSaveToken ? this.saveUserInfo(request.userId, request.password) : null;

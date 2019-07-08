@@ -1,5 +1,7 @@
 import {AsyncStorage} from 'react-native';
 
+// AsyncStorage 에 넣고 빼는 함수가 정의된 파일
+
 export const saveUserId = (userId: string) => {
     const data = JSON.stringify(userId);
     AsyncStorage.setItem('userId', data);

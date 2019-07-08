@@ -1,8 +1,7 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { withNavigation } from "react-navigation";
 import { NavigationInjectedProps } from "react-navigation";
-import RootStore from "../../../store/RootStore";
 import VehicleList from "../../organism/VehicleList";
 import LoadingModal from "../../molecule/LoadingModal";
 import BottomMenuTap from "../../organism/BottomMenuTap";
@@ -19,6 +18,7 @@ const initialState: State = {
     isLoading: false
 }
 
+// List, Menu, SearchBar 를 띄우는 리스트 페이지
 class ListPage extends React.Component<Props, State> {
     state = initialState;
 

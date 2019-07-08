@@ -6,6 +6,7 @@ type Props = {
     visible: boolean,
 }
 
+// Loading 팝업
 class LoadingModal extends React.Component<Props> {
     render() {
         const {visible} = this.props;

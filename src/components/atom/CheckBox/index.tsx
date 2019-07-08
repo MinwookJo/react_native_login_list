@@ -11,6 +11,7 @@ type Props = {
     onCheck: () => void
 }
 
+// checkBox 기본이 되는 아톰 클릭 시 unCheck,check image 스왑
 class CheckBox extends React.Component<Props> {
     render() {
         const {checkImageSrc, unCheckImageSrc,imageStyle, borderStyle, check, onCheck} = this.props;

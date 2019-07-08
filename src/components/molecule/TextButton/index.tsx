@@ -9,6 +9,7 @@ type Props = {
     onPress: () => void
 }
 
+// 텍스트 달린 버튼
 const TextButton: React.FC<Props> = (props: Props) => {
     const {buttonStyle, buttonTextStyle, text, onPress} = props;
     return(

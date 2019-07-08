@@ -1,5 +1,6 @@
 import {StyleSheet, ViewStyle, TextStyle} from 'react-native';
 
+// 흐려지는 배경
 const modalBackground: ViewStyle = {
     flex: 1,
     justifyContent: 'center',
@@ -7,6 +8,7 @@ const modalBackground: ViewStyle = {
     backgroundColor: 'rgba(0,0,0,0.5)'
 }
 
+// popUp 카드
 const modalCard: ViewStyle = {
     backgroundColor: '#fff',
     width: '70%',
@@ -32,10 +34,10 @@ const modalButtonText: TextStyle = {
     color: '#dedede'
 }
 
-export default {
+export default StyleSheet.create({
     modalBackground,
     modalCard,
     modalText,
     modalButton,
     modalButtonText
-}
+});

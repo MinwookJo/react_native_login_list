@@ -14,6 +14,7 @@ type InjectedProps = {
     rootStore?: RootStore
 }
 
+// 상단 검색 바 입력 한 내용에 맞게 리스트가 생김
 @inject('rootStore')
 @observer
 class SearchHeader extends React.Component<Props>{

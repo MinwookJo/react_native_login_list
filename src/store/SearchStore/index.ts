@@ -1,5 +1,5 @@
 import {observable, action, computed} from 'mobx'
-import { VehicleType, fetchVehicleList, updateVehicleFavorite, UpdateVehicleFavoriteApiType, VehicleFavorite, UpdateVehicleFavoriteRequest } from '../../api/Vehicle';
+import { VehicleType, fetchVehicleList, updateVehicleFavorite, VehicleFavoriteRequest, VehicleFavoriteResponse, VehicleFavoriteSuccessCode } from '../../api/Vehicle';
 
 class SearchStore {
     @observable searchKeyWord: string = ''; 
@@ -90,10 +90,10 @@ class SearchStore {
     }
 
     @action.bound
-    updateVehicleSFavorite(vehicleIdx: number, request: UpdateVehicleFavoriteRequest, token, onScuess?: () => void, onFail?: () => void) {
+    updateVehicleSFavorite(vehicleIdx: number, request: VehicleFavoriteRequest, token, onScuess?: () => void, onFail?: () => void) {
         updateVehicleFavorite(vehicleIdx, request, token)
-        .then((result: UpdateVehicleFavoriteApiType) => {
-            if(result === VehicleFavorite.OK) {
+        .then((result: VehicleFavoriteResponse) => {
+            if(result === VehicleFavoriteSuccessCode.OK) {
                 this.changeFavoriteVehicleListAt(vehicleIdx, request.status);
             } else {
                 throw new Error('Change Favorite Fail');

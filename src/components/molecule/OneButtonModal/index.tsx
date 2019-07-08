@@ -8,6 +8,7 @@ type Props = {
     onPress: () => void
 }
 
+// 확인 버튼 달려있는 팝업 경고창에 사용
 class OneButtonModal extends React.Component<Props> {
     render() {
         const {message, visible, onPress} = this.props;

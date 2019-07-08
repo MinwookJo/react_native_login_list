@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { VehicleType, UpdateVehicleFavoriteRequest, initialVehicle } from "../../../../../api/Vehicle";
+import { VehicleType, initialVehicle, VehicleFavoriteRequest } from "../../../../../api/Vehicle";
 import styles from './styles';
 import StarBox from "../../../../molecule/StarBox";
 import { observer, inject } from "mobx-react";
@@ -33,7 +33,7 @@ class VehicleListItem extends React.Component<Props>{
         const {token} = this.props.rootStore.accountStore;
         const {vehicle} = this.state;
 
-        const request: UpdateVehicleFavoriteRequest = {
+        const request: VehicleFavoriteRequest = {
             status: !vehicle.favorite
         }
         updateVehicleSFavorite(vehicleIdx, request, token);

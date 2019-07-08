@@ -9,7 +9,7 @@ import { APP_PATH } from "../RootPage";
 import LoadingModal from "../../molecule/LoadingModal";
 import {observer, inject} from 'mobx-react';
 import RootStore from "../../../store/RootStore";
-import { getUserId, getPassword, saveUserId, savePassword } from "../../../storage/AccountStorage";
+import { getUserId, getPassword } from "../../../storage/AccountStorage";
 import { SignInRequest } from "../../../api/Account";
 import { DEVICE_TYPE, getOS } from "../../../utils/device";
 
@@ -29,6 +29,7 @@ const initialState: State = {
     isLoading: false
 }
 
+// 로그인, 자동로그인이 되는 로그인 페이지
 @inject('rootStore')
 @observer
 class SignInPage extends React.Component<Props, State> {
@@ -43,6 +44,7 @@ class SignInPage extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        // 시작 시 자동로그인 시도
         this.autoSignIn();
     }
 
@@ -53,8 +55,11 @@ class SignInPage extends React.Component<Props, State> {
         const osData: DEVICE_TYPE = getOS();
         this.setLoadingVisible(true);
 
+        // 1. sotrage 데이터를 가져옴 .then()에서 변수 업데이트
         await getUserId().then((userId: string) => userIdData = JSON.parse(userId));
         await getPassword().then((password: string) => passwordData = JSON.parse(password));
+
+        // 2. 가져온 변수로 로그인 시도
         const request: SignInRequest = {
             userId: userIdData,
             password: passwordData,
@@ -62,12 +67,12 @@ class SignInPage extends React.Component<Props, State> {
         }
         fetchTokenAndSigIn(request, false,
             () => {
-                // success
+                // 3. success 시 페이지이동, 로딩해제
                 this.goToListPage();
                 this.setLoadingVisible(false);
             },
             () => {
-                // fail
+                // 3. fail 아무것도 하지않음, 로딩해제
                 this.setLoadingVisible(false);
             }
         )

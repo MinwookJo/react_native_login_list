@@ -6,6 +6,7 @@ export enum DEVICE_TYPE {
     Undefine = 'undefine'
 }
 
+// 디바이스 타입 가져오는 함수
 export const getOS = (): DEVICE_TYPE => {
     if(Platform.OS === 'ios') {
         return DEVICE_TYPE.Ios

@@ -1,5 +1,4 @@
-const ASSET_PATH = '../assets';
-
+// 에셋 상수를 모아두고 관리하는 ts 파일
 const Icon = {
     CheckOn: require('../assets/img/checkboxOn.png'),
     StarOn: require('../assets/img/fillStar.png'),

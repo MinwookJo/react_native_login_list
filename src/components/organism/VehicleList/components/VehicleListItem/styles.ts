@@ -1,5 +1,6 @@
 import {StyleSheet, ViewStyle, TextStyle} from 'react-native';
 
+// 차량정보 하나에 카드
 const vehicleCard: ViewStyle = {
     height: 112,
     marginLeft: 8,
@@ -14,6 +15,7 @@ const vehicleCard: ViewStyle = {
     elevation: 2
 }
 
+// 콘텐츠를 감싸는 패딩
 const vehicleContent: ViewStyle = {
     marginLeft: 16,
     marginRight: 16
