@@ -2,7 +2,7 @@
 atomic 디자인, mobX, mobX decorator, react-navigation, AsyncStorage, Axios 사용
 
 1. 컴포넌트 구조 src/components
-atom - 기본적인 요소가 되는 컴포넌트 
+atom - 기본적인 요소가 되는 컴포넌트 \n
 molecule - 하나의 기능을 가진 컴포넌트 
 organism - 하나 이상의 기능을 가진 컴포넌트 
 screen - 한 액티비티 단위 
